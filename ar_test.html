@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>dancing-tee</title>
+    <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.0/dist/mindar-image-aframe.prod.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
+    <style>
+      body {
+        background: lime;
+     
+      }
+      .container {
+        width: 100vw;
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      #scanningOverlay {
+        width: 100vw;
+        height: 100vh;
+        text-align: center;
+        background: rgba(0, 0, 0, 0.8);
+      }
+
+      #loading {
+      }
+
+      .img-cont {
+        width: 100vw;
+        height: 100vh;
+        padding-top: 30vh;
+
+        animation: scanning 2s linear infinite;
+      }
+
+      img {
+        width: 150px;
+        padding: 2em;
+      }
+
+      #glassDude {
+        border: 1px solid white;
+        border-radius: 15px;
+      }
+
+      .hidden {
+        display: none;
+      }
+
+      @keyframes scanning {
+        0% {
+          transform: translateY(0px);
+        }
+        25% {
+          transform: translateY(30vh);
+        }
+        50% {
+          transform: translateY(0px);
+        }
+        100% {
+          transform: translateY(-30vh);
+        }
+      }
+      
+      #video{
+        width: 100vw;
+        height: 100vh;
+        background: yellow;
+      }
+    </style>
+  </head>
+  <body>
+ 
+    <div class="container">
+      <div id="loading" class="hidden">
+        <img
+          src="./loading.gif"
+        />
+      </div>
+      <div id="scanningOverlay" class="hidden">
+        <div class="img-cont">
+          <img
+            id="glassDude"
+            src="./magnifying-glass.jpg"
+          />
+        </div>
+      </div>
+    </div>
+
+    <a-scene
+      mindar-image="filterMinCF:0.002; filterBeta: 15; uiLoading:#loading; uiScanning:#scanningOverlay; imageTargetSrc:./targets.mind"
+      vr-mode-ui="enabled: false"
+      device-orientation-permission-ui="enabled: false"
+      color-space="sRGB"
+      renderer="colorManagement: true, physicallyCorrectLights"
+    >
+      <a-assets>
+        <a-sky color="blue"></a-sky>
+        <a-asset-item
+          id="avatarModel"
+          src="./avatar.glb"
+        ></a-asset-item>
+      </a-assets>
+      <a-camera position="0 0 0" look-controls="enabled: true"></a-camera>
+      <a-entity mindar-image-target="targetIndex: 0">
+        <a-gltf-model
+          rotation="0 0 0 "
+          position="0 0 0.1"
+          scale="0.4 0.4 0.4"
+          src="#avatarModel"
+          animation-mixer
+        ></a-gltf-model>
+      </a-entity>
+    </a-scene>
+    
+  
+  </body>
+</html>
